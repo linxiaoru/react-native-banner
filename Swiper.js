@@ -16,37 +16,37 @@ const screenWidth = Dimensions.get('window').width;
 
 export default class Swiper extends React.Component {
   static propTypes = {
-    horizontal                       : React.PropTypes.bool,
-    style                            : View.propTypes.style,
-    activeDotStyle                   : View.propTypes.style,
-    dotStyle                         : View.propTypes.style,
-    paginationStyle                  : View.propTypes.style,
-    showPagination                   : React.PropTypes.bool,
-    loop                             : React.PropTypes.bool,
-    autoplay                         : React.PropTypes.bool,
-    autoplayTimeout                  : React.PropTypes.number,
-    autoplayDirection                : React.PropTypes.bool,
-    defaultIndex                     : React.PropTypes.number,
-    whRatio                          : React.PropTypes.number,
-    renderPagination                 : React.PropTypes.func,
+    horizontal: React.PropTypes.bool,
+    style: View.propTypes.style,
+    activeDotStyle: View.propTypes.style,
+    dotStyle: View.propTypes.style,
+    paginationStyle: View.propTypes.style,
+    showPagination: React.PropTypes.bool,
+    loop: React.PropTypes.bool,
+    autoplay: React.PropTypes.bool,
+    autoplayTimeout: React.PropTypes.number,
+    autoplayDirection: React.PropTypes.bool,
+    defaultIndex: React.PropTypes.number,
+    whRatio: React.PropTypes.number,
+    renderPagination: React.PropTypes.func,
   };
 
   static defaultProps = {
-    horizontal                       : true,
-    pagingEnabled                    : true,
-    showsHorizontalScrollIndicator   : false,
-    showsVerticalScrollIndicator     : false,
-    bounces                          : false,
-    scrollsToTop                     : false,
-    removeClippedSubviews            : true,
-    automaticallyAdjustContentInsets : false,
-    showPagination                   : true,
-    loop                             : true,
-    autoplay                         : false,
-    autoplayTimeout                  : 2.5,
-    autoplayDirection                : true,
-    defaultIndex                     : 0,
-    whRatio                          : 2
+    horizontal: true,
+    pagingEnabled: true,
+    showsHorizontalScrollIndicator: false,
+    showsVerticalScrollIndicator: false,
+    bounces: false,
+    scrollsToTop: false,
+    removeClippedSubviews: true,
+    automaticallyAdjustContentInsets: false,
+    showPagination: true,
+    loop: true,
+    autoplay: false,
+    autoplayTimeout: 2.5,
+    autoplayDirection: true,
+    defaultIndex: 0,
+    whRatio: 2
   };
 
   static autoplayTimer = null;
@@ -103,7 +103,7 @@ export default class Swiper extends React.Component {
    * Automatic srolling
    */
   _autoplay() {
-    if(!Array.isArray(this.props.children)
+    if (!Array.isArray(this.props.children)
       || !this.props.autoplay
       || this.state.isScrolling
       || this.state.autoplayEnd) return;
@@ -111,7 +111,7 @@ export default class Swiper extends React.Component {
     this.clearTimeout(this.autoplayTimer);
 
     this.autoplayTimer = this.setTimeout(() => {
-      if(!this.props.loop
+      if (!this.props.loop
         && (this.props.autoplayDirection
           ? this.state.index == this.state.total - 1
           : this.state.index == 0)) {
@@ -151,9 +151,9 @@ export default class Swiper extends React.Component {
     // making our events coming from android compatible to updateIndex logic
     if (!e.nativeEvent.contentOffset) {
       if (this.state.dir == 'x') {
-        e.nativeEvent.contentOffset = {x: e.nativeEvent.position * this.state.width};
+        e.nativeEvent.contentOffset = { x: e.nativeEvent.position * this.state.width };
       } else {
-        e.nativeEvent.contentOffset = {y: e.nativeEvent.position * this.state.height};
+        e.nativeEvent.contentOffset = { y: e.nativeEvent.position * this.state.height };
       }
     }
 
@@ -170,9 +170,9 @@ export default class Swiper extends React.Component {
   }
 
   _onPageScrollStateChanged(scrollState) {
-    if(scrollState == 'idle') {
-    //   console.log('_onPageScrollStateChanged idle index:', this.state.index);
-      if(this.state.isScrolling) {
+    if (scrollState == 'idle') {
+      //   console.log('_onPageScrollStateChanged idle index:', this.state.index);
+      if (this.state.isScrolling) {
         this.setState({
           isScrolling: false
         });
@@ -182,8 +182,8 @@ export default class Swiper extends React.Component {
           position: this._viewPagerIndex
         }
       });
-      if(this.props.loop) {
-        if(this._viewPagerIndex < 1) {
+      if (this.props.loop) {
+        if (this._viewPagerIndex < 1) {
           this._viewPagerIndex = this.state.total;
           this.refs.scrollView.setPageWithoutAnimation(this._viewPagerIndex);
         } else if (this._viewPagerIndex > this.state.total) {
@@ -192,7 +192,7 @@ export default class Swiper extends React.Component {
         }
       }
     } else {
-      if(!this.state.isScrolling) {
+      if (!this.state.isScrolling) {
         this.setState({
           isScrolling: true
         });
@@ -212,7 +212,7 @@ export default class Swiper extends React.Component {
     let step = dir == 'x' ? state.width : state.height;
 
     // Do nothing if offset no change.
-    if(!diff) return;
+    if (!diff) return;
 
     // Note: if touch very very quickly and continuous,
     // the variation of `index` more than 1.
@@ -220,12 +220,12 @@ export default class Swiper extends React.Component {
 
     index = Math.round(offset[dir] / step);
 
-    if(this.props.loop) {
+    if (this.props.loop) {
       --index;
-      if(index < 0) {
+      if (index < 0) {
         index = state.total - 1;
         offset[dir] = step * state.total;
-      } else if(index > state.total - 1) {
+      } else if (index > state.total - 1) {
         index = 0;
         offset[dir] = step;
       }
@@ -247,10 +247,10 @@ export default class Swiper extends React.Component {
     let diff = (this.props.loop ? 1 : 0) + index + this.state.index;
     let x = 0;
     let y = 0;
-    if(state.dir == 'x') x = diff * state.width;
-    if(state.dir == 'y') y = diff * state.height;
-    if(this.refs.scrollView) {
-      if(Platform.OS == 'ios') {
+    if (state.dir == 'x') x = diff * state.width;
+    if (state.dir == 'y') y = diff * state.height;
+    if (this.refs.scrollView) {
+      if (Platform.OS == 'ios') {
         this.refs.scrollView.scrollTo({
           y,
           x
@@ -274,16 +274,16 @@ export default class Swiper extends React.Component {
    */
   _renderPagination() {
     // By default, dots only show when `total` >= 2
-    if(this.state.total <= 1) return null;
+    if (this.state.total <= 1) return null;
     let dots = [];
     let ActiveDot = <View style={[styles.activeDot, this.props.activeDotStyle]} />;
     let Dot = <View style={[styles.dot, this.props.dotStyle]} />;
-    for(let i = 0; i < this.state.total; i++) {
+    for (let i = 0; i < this.state.total; i++) {
       dots.push(i === this.state.index
         ?
-        React.cloneElement(ActiveDot, {key: i})
+        React.cloneElement(ActiveDot, { key: i })
         :
-        React.cloneElement(Dot, {key: i})
+        React.cloneElement(Dot, { key: i })
       );
     }
 
@@ -291,7 +291,7 @@ export default class Swiper extends React.Component {
       <View
         pointerEvents='none'
         style={[styles['pagination_' +
-        this.state.dir], this.props.paginationStyle]}>
+          this.state.dir], this.props.paginationStyle]}>
         {dots}
       </View>
     )
@@ -324,7 +324,7 @@ export default class Swiper extends React.Component {
         }}
         onPageScrollStateChanged={this._onPageScrollStateChanged}
         initialPage={this.props.loop ? this.state.index + 1 : this.state.index}
-        style={[{flex: 1, height: this.state.height}, styles.wrapper]}>
+        style={[{ flex: 1, height: this.state.height }, styles.wrapper]}>
         {pages}
       </ViewPagerAndroid>
     );
@@ -362,13 +362,13 @@ export default class Swiper extends React.Component {
       let loop = props.loop;
 
       let pages = [];
-      let pageStyle = [{width: state.width, height: state.height}, styles.slide];
+      let pageStyle = [{ width: state.width, height: state.height }, styles.slide];
 
       // For make infinite at least total > 1
-      if(total > 1) {
+      if (total > 1) {
         // Re-design a loop model for avoid img flickering
         pages = Object.keys(children);
-        if(loop) {
+        if (loop) {
           pages.unshift(total - 1);
           pages.push(0);
         }
@@ -383,7 +383,7 @@ export default class Swiper extends React.Component {
 
       return (
         <View style={[styles.container, this.props.style]}
-        onLayout={this._calContainer}>
+          onLayout={this._calContainer}>
           {this._renderScrollView(pages)}
           {this._renderTitle()}
           {props.showPagination && (props.renderPagination
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'transparent',
+    backgroundColor: 'transparent',
   },
 
   pagination_y: {
@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'transparent',
+    backgroundColor: 'transparent',
   },
 
   dot: {
@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
     marginRight: 3,
     marginTop: 3,
     marginBottom: 3,
-    backgroundColor:'rgba(0,0,0,.2)',
+    backgroundColor: 'rgba(0,0,0,.2)',
   },
 
   activeDot: {
